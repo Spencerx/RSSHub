@@ -582,9 +582,6 @@
   "/apple/podcast/:id/:region?": [
     "Acring"
   ],
-  "/apple/security-releases/:language?": [
-    "nczitzk"
-  ],
   "/appleinsider/:category?": [
     "nczitzk"
   ],
@@ -8572,9 +8569,6 @@
   ],
   "/zcool/user/:uid": [
     "junbaor"
-  ],
-  "/zed/blog": [
-    "cscnk52"
   ],
   "/zhibo8/forum/:id": [
     "LogicJake"
