@@ -66191,7 +66191,7 @@ export default {
         "example": "/missav/new",
         "features": {
           "requireConfig": false,
-          "requirePuppeteer": true,
+          "requirePuppeteer": false,
           "antiCrawler": false,
           "supportBT": false,
           "supportPodcast": false,
@@ -66200,14 +66200,14 @@ export default {
         "radar": [
           {
             "source": [
-              "missav.ws/dm514/new",
+              "missav.ws/dm397/new",
               "missav.ws/new",
               "missav.ws/"
             ]
           },
           {
             "source": [
-              "missav.ai/dm514/new",
+              "missav.ai/dm397/new",
               "missav.ai/new",
               "missav.ai/"
             ]
