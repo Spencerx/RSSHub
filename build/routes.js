@@ -33663,6 +33663,44 @@ export default {
     "url": "www.eventernote.com",
     "lang": "ja"
   },
+  "everia": {
+    "routes": {
+      "/tag/:tag": {
+        "path": "/tag/:tag",
+        "categories": [
+          "picture"
+        ],
+        "example": "/everia/tag/hinatazaka46-日向坂46",
+        "parameters": {
+          "tag": "Tag of the image stream"
+        },
+        "features": {
+          "requireConfig": false,
+          "requirePuppeteer": false,
+          "antiCrawler": false,
+          "supportBT": false,
+          "supportPodcast": false,
+          "supportScihub": false
+        },
+        "radar": [
+          {
+            "source": [
+              "everia.club/tag/:tag"
+            ],
+            "target": "/tag/:tag"
+          }
+        ],
+        "name": "Images with tag",
+        "maintainers": [
+          "KTachibanaM"
+        ],
+        "location": "tag.ts",
+        "module": () => import('@/routes/everia/tag.ts')
+      }
+    },
+    "name": "EVERIA.CLUB",
+    "url": "everia.club"
+  },
   "f-droid": {
     "routes": {
       "/apprelease/:app": {
@@ -59057,7 +59095,10 @@ export default {
   "konachan": {
     "routes": {
       "/post/popular_recent/:period?": {
-        "path": "/post/popular_recent/:period?",
+        "path": [
+          "/post/popular_recent/:period?",
+          "/sfw/post/popular_recent/:period?"
+        ],
         "categories": [
           "picture",
           "popular"
@@ -59086,19 +59127,82 @@ export default {
               }
             ],
             "default": "1d"
+          },
+          "safe_search": {
+            "description": "是否使用无r18的站点konachan.net，若是,则在路径前加上 `/sfw`，如`/konachan/sfw/post/popular_recent/1d`，若否则默认使用 konachan.com",
+            "default": "false"
           }
         },
         "radar": [
           {
             "source": [
-              "konachan.com/post"
+              "konachan.com/post",
+              "konachan.net/post"
             ]
           }
         ],
         "name": "Popular Recent Posts",
         "maintainers": [
           "magic-akari",
-          "NekoAria"
+          "NekoAria",
+          "sineeeee"
+        ],
+        "description": "| 最近 24 小时    | 最近一周     | 最近一月    | 最近一年     |\n| ------- | -------- | ------- | -------- |\n| 1d | 1w | 1m | 1y |",
+        "location": "post.ts",
+        "module": () => import('@/routes/konachan/post.ts')
+      },
+      "/sfw/post/popular_recent/:period?": {
+        "path": [
+          "/post/popular_recent/:period?",
+          "/sfw/post/popular_recent/:period?"
+        ],
+        "categories": [
+          "picture",
+          "popular"
+        ],
+        "view": 2,
+        "example": "/konachan/post/popular_recent/1d",
+        "parameters": {
+          "period": {
+            "description": "展示时间",
+            "options": [
+              {
+                "value": "1d",
+                "label": "最近 24 小时"
+              },
+              {
+                "value": "1w",
+                "label": "最近一周"
+              },
+              {
+                "value": "1m",
+                "label": "最近一月"
+              },
+              {
+                "value": "1y",
+                "label": "最近一年"
+              }
+            ],
+            "default": "1d"
+          },
+          "safe_search": {
+            "description": "是否使用无r18的站点konachan.net，若是,则在路径前加上 `/sfw`，如`/konachan/sfw/post/popular_recent/1d`，若否则默认使用 konachan.com",
+            "default": "false"
+          }
+        },
+        "radar": [
+          {
+            "source": [
+              "konachan.com/post",
+              "konachan.net/post"
+            ]
+          }
+        ],
+        "name": "Popular Recent Posts",
+        "maintainers": [
+          "magic-akari",
+          "NekoAria",
+          "sineeeee"
         ],
         "description": "| 最近 24 小时    | 最近一周     | 最近一月    | 最近一年     |\n| ------- | -------- | ------- | -------- |\n| 1d | 1w | 1m | 1y |",
         "location": "post.ts",
