@@ -8312,7 +8312,8 @@ export default {
       "/information/:type?": {
         "path": "/information/:type?",
         "categories": [
-          "new-media"
+          "new-media",
+          "popular"
         ],
         "example": "/aliresearch/information",
         "parameters": {
@@ -25160,8 +25161,7 @@ export default {
           "/tuwen/:type?"
         ],
         "categories": [
-          "social-media",
-          "popular"
+          "social-media"
         ],
         "example": "/coolapk/tuwen",
         "parameters": {
@@ -28639,7 +28639,8 @@ export default {
       "/blog": {
         "path": "/blog",
         "categories": [
-          "new-media"
+          "new-media",
+          "popular"
         ],
         "example": "/deepmind/blog",
         "parameters": {},
@@ -111271,8 +111272,7 @@ export default {
       "/post/popular_recent/:period?": {
         "path": "/post/popular_recent/:period?",
         "categories": [
-          "picture",
-          "popular"
+          "picture"
         ],
         "view": 2,
         "example": "/yande/post/popular_recent/1d",
