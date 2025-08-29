@@ -28638,8 +28638,7 @@ export default {
       "/blog": {
         "path": "/blog",
         "categories": [
-          "new-media",
-          "popular"
+          "new-media"
         ],
         "example": "/deepmind/blog",
         "parameters": {},
@@ -50205,7 +50204,8 @@ export default {
       "/blog-zh": {
         "path": "/blog-zh",
         "categories": [
-          "programming"
+          "programming",
+          "popular"
         ],
         "example": "/huggingface/blog-zh",
         "parameters": {},
@@ -110640,7 +110640,8 @@ export default {
       "/hots": {
         "path": "/hots",
         "categories": [
-          "finance"
+          "finance",
+          "popular"
         ],
         "example": "/xueqiu/hots",
         "parameters": {},

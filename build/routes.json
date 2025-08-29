@@ -28638,8 +28638,7 @@
       "/blog": {
         "path": "/blog",
         "categories": [
-          "new-media",
-          "popular"
+          "new-media"
         ],
         "example": "/deepmind/blog",
         "parameters": {},
@@ -50205,7 +50204,8 @@
       "/blog-zh": {
         "path": "/blog-zh",
         "categories": [
-          "programming"
+          "programming",
+          "popular"
         ],
         "example": "/huggingface/blog-zh",
         "parameters": {},
@@ -110640,7 +110640,8 @@
       "/hots": {
         "path": "/hots",
         "categories": [
-          "finance"
+          "finance",
+          "popular"
         ],
         "example": "/xueqiu/hots",
         "parameters": {},
