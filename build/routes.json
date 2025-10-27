@@ -31791,8 +31791,7 @@
       "/:type?/:category?": {
         "path": "/:type?/:category?",
         "categories": [
-          "new-media",
-          "popular"
+          "new-media"
         ],
         "example": "/dx2025",
         "parameters": {
@@ -44135,7 +44134,8 @@
       "/npc/:caty": {
         "path": "/npc/:caty",
         "categories": [
-          "government"
+          "government",
+          "popular"
         ],
         "example": "/gov/npc/c183",
         "parameters": {
