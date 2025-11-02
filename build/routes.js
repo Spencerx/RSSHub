@@ -44134,8 +44134,7 @@ export default {
       "/npc/:caty": {
         "path": "/npc/:caty",
         "categories": [
-          "government",
-          "popular"
+          "government"
         ],
         "example": "/gov/npc/c183",
         "parameters": {
@@ -56191,7 +56190,8 @@ export default {
       "/topic/text/:id": {
         "path": "/topic/text/:id",
         "categories": [
-          "social-media"
+          "social-media",
+          "popular"
         ],
         "example": "/jike/topic/text/553870e8e4b0cafb0a1bef68",
         "parameters": {
