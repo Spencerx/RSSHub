@@ -1,13 +1,14 @@
-import { Route } from '@/types';
-import ofetch from '@/utils/ofetch';
-import { config } from '@/config';
 import { load } from 'cheerio';
+
+import { config } from '@/config';
+import type { Route } from '@/types';
+import ofetch from '@/utils/ofetch';
 
 async function handler(ctx) {
     const { params } = ctx.req.param();
     const baseUrl = 'https://hanime1.me';
 
-    // 提取参数
+    // Parse the search parameters.
     const searchParams = new URLSearchParams(params);
     const query = searchParams.get('query') || '';
     const genre = searchParams.get('genre') || '';
@@ -17,10 +18,15 @@ async function handler(ctx) {
     const year = searchParams.get('year') || '';
     const month = searchParams.get('month') || '';
 
-    let link = `${baseUrl}/search?query=${query}&genre=${genre}&broad=${broad}&sort=${sort}&year=${year}&month=${month}`;
-    for (const tag of tags) {
-        link += `&tags[]=${tag}`;
+    const searchUrl = new URL('/search', baseUrl);
+    const searchEntries = Object.entries({ query, genre, broad, sort, year, month });
+    for (const [name, value] of searchEntries) {
+        searchUrl.searchParams.set(name, value);
     }
+    for (const tag of tags) {
+        searchUrl.searchParams.append('tags[]', tag);
+    }
+    const link = searchUrl.href;
 
     const response = await ofetch(link, {
         headers: {
@@ -30,29 +36,28 @@ async function handler(ctx) {
     });
     const $ = load(response);
 
-    const target = '.content-padding-new .row.no-gutter';
+    const target = '.search-rows-wrapper .video-item-container[title], .content-padding-new .row.no-gutter .search-doujin-videos.hidden-xs, .search-rows-wrapper .home-rows-videos-wrapper > a[href^="https://hanime1.me/watch?"]';
 
     const items = $(target)
-        .find('.search-doujin-videos.hidden-xs') // 过滤掉重复的元素
         .toArray()
         .map((item) => {
             const element = $(item);
-            const title = element.attr('title');
-            const videoLink = element.find('a.overlay').attr('href');
-            const imageSrc = element.find('img[style*="object-fit: cover"]').attr('src'); // 选择缩略图
+            const title = element.attr('title') ?? element.find('.home-rows-videos-title').text();
+            const videoLink = element.is('a') ? element.attr('href') : element.find('a.video-link, a.overlay').attr('href');
+            const imageSrc = element.find('img.main-thumb, img[style*="object-fit: cover"], .video-card-inner img').attr('src'); // Select the thumbnail.
 
             return {
-                title,
-                videoLink,
+                title: title!,
+                link: videoLink,
                 description: `<img src="${imageSrc}">`,
             };
         });
 
-    // 最多显示三个标签
+    // Display up to three tags in the feed title.
     const maxTagsToShow = 3;
     const displayedTags = tags.slice(0, maxTagsToShow).join(', ') + (tags.length > maxTagsToShow ? ', ...' : '');
 
-    const feedTitle = `Hanime1 搜索结果` + (genre ? ` | 类型: ${genre}` : '') + (query ? ` | 关键词: ${query}` : '') + (tags.length ? ` | 标签: ${displayedTags}` : '');
+    const feedTitle = 'Hanime1 搜索结果' + (genre ? ` | 类型: ${genre}` : '') + (query ? ` | 关键词: ${query}` : '') + (tags.length ? ` | 标签: ${displayedTags}` : '');
 
     return {
         title: feedTitle,
@@ -79,7 +84,9 @@ export const route: Route = {
 | \`sort\`            | 搜索结果排序，默认 \`最新上市\`   | \`最新上市\` / \`最新上傳\` / \`本日排行\` / \`本週排行\` / \`本月排行\` / \`觀看次數\` / \`讚好比例\` / \`他們在看\` |
 | \`year\`, \`month\` | 筛选发布时间，默认为 \`全部时间\` | 例如：\`year=2025&month=5\`                                                                                           |
 
-**Tips**: 如果你不确定标签或类型的具体名字，可以直接去原网址选好筛选条件后，把网址中的参数复制过来使用。例如： \`https://hanime1.me/search?query=&genre=裏番&broad=on&sort=最新上市&tags[]=純愛&tags[]=中文字幕\`，\`/search?\`后面的部分就是参数了,最后得到类似这样的路由 \`https://rsshub.app/hanime1/search/query=&genre=裏番&broad=on&sort=最新上市&tags[]=純愛&tags[]=中文字幕\`
+::: tip
+如果你不确定标签或类型的具体名字，可以直接去原网址选好筛选条件后，把网址中的参数复制过来使用。例如： \`https://hanime1.me/search?query=&genre=裏番&broad=on&sort=最新上市&tags[]=純愛&tags[]=中文字幕\`，\`/search?\`后面的部分就是参数了,最后得到**类似**这样的路由 \`https://rsshub.app/hanime1/search/query=&genre=裏番&broad=on&sort=最新上市&tags[]=純愛&tags[]=中文字幕\`
+:::
 `,
         },
     },
@@ -90,6 +97,7 @@ export const route: Route = {
         supportBT: false,
         supportPodcast: false,
         supportScihub: false,
+        nsfw: true,
     },
     handler,
 };
